@@ -1,0 +1,170 @@
+/* Enhanced PrismJS Theme - Dark with better syntax highlighting */
+code[class*="language-"],
+pre[class*="language-"] {
+  color: #f8f8f2;
+  background: none;
+  text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+  font-family: 'Fira Code', 'JetBrains Mono', Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  font-size: 0.9em;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.6;
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+pre[class*="language-"] {
+  padding: 1.5em;
+  margin: 0.5em 0;
+  overflow: auto;
+  border-radius: 0.5em;
+  background: #1e1e1e;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+  background: #1e1e1e;
+}
+
+:not(pre) > code[class*="language-"] {
+  padding: 0.2em 0.4em;
+  border-radius: 0.3em;
+  white-space: normal;
+}
+
+/* Comments */
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+  color: #6a9955;
+  font-style: italic;
+}
+
+/* Punctuation */
+.token.punctuation {
+  color: #d4d4d4;
+}
+
+/* Properties, tags, booleans, numbers, constants, symbols */
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted {
+  color: #b5cea8;
+}
+
+/* Selectors, attributes, strings, chars, built-ins, inserted */
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+  color: #ce9178;
+}
+
+/* Operators, entities, URLs */
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string {
+  color: #d4d4d4;
+}
+
+/* Keywords, atrules, attr-values */
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+  color: #569cd6;
+  font-weight: 500;
+}
+
+/* Functions, class names */
+.token.function,
+.token.class-name {
+  color: #dcdcaa;
+  font-weight: 500;
+}
+
+/* Regex, important, variables */
+.token.regex,
+.token.important,
+.token.variable {
+  color: #d16969;
+}
+
+/* Important and bold */
+.token.important,
+.token.bold {
+  font-weight: bold;
+}
+
+/* Italic */
+.token.italic {
+  font-style: italic;
+}
+
+/* Entity cursor */
+.token.entity {
+  cursor: help;
+}
+
+/* Language-specific enhancements */
+.language-javascript .token.keyword,
+.language-js .token.keyword {
+  color: #569cd6;
+}
+
+.language-python .token.keyword {
+  color: #ff7b72;
+}
+
+.language-java .token.keyword {
+  color: #d73a49;
+}
+
+.language-cpp .token.keyword,
+.language-c .token.keyword {
+  color: #79c0ff;
+}
+
+/* Line highlighting */
+.line-highlight {
+  background: rgba(255, 255, 255, 0.1);
+  border-left: 3px solid #569cd6;
+  padding-left: 1em;
+  margin-left: -1em;
+}
+
+/* Scrollbar styling for code blocks */
+pre[class*="language-"]::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+pre[class*="language-"]::-webkit-scrollbar-track {
+  background: #2d2d2d;
+  border-radius: 4px;
+}
+
+pre[class*="language-"]::-webkit-scrollbar-thumb {
+  background: #555;
+  border-radius: 4px;
+}
+
+pre[class*="language-"]::-webkit-scrollbar-thumb:hover {
+  background: #777;
+}
