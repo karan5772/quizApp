@@ -12,7 +12,7 @@ A full-stack quiz/test platform for students and admins, built with modern web t
   <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original-wordmark.svg" alt="React" width="40"/>
   <img src="https://vitejs.dev/logo.svg" alt="Vite" width="40"/>
   <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg" alt="JavaScript" width="40"/>
-  <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/tailwindcss/tailwindcss-plain.svg" alt="Tailwind CSS" width="40"/>
+  <img src="https://github.com/devicons/devicon/blob/master/icons/tailwindcss/tailwindcss-original.svg" alt="Tailwind CSS" width="40"/>
   <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/html5/html5-original.svg" alt="HTML5" width="40"/>
   <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/css3/css3-original.svg" alt="CSS3" width="40"/>
 </p>
@@ -29,10 +29,10 @@ A full-stack quiz/test platform for students and admins, built with modern web t
 
 <p>
   <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original.svg" alt="Node.js" width="40"/>
-  <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/express/express-original.svg" alt="Express" width="40"/>
+  <img src="https://img.icons8.com/?size=100&id=kg46nzoJrmTR&format=png&color=FFFFFF" alt="Express" width="40"/>
   <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/mongodb/mongodb-original.svg" alt="MongoDB" width="40"/>
   <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/mongoose/mongoose-original.svg" alt="Mongoose" width="40"/>
-  <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/jwt/jwt-original.svg" alt="JWT" width="40"/>
+  <img src="https://img.icons8.com/?size=100&id=rHpveptSuwDz&format=png&color=000000" alt="JWT" width="40"/>
 </p>
 
 - **Node.js**: JavaScript runtime for server-side logic.
@@ -47,9 +47,9 @@ A full-stack quiz/test platform for students and admins, built with modern web t
 
 <p>
   <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/npm/npm-original-wordmark.svg" alt="npm" width="40"/>
-  <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/github/github-original.svg" alt="GitHub" width="40"/>
-  <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/xlsx/xlsx-original.svg" alt="xlsx" width="40"/>
-  <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/dotenv/dotenv-original.svg" alt="dotenv" width="40"/>
+  <img src="https://img.icons8.com/?size=100&id=3tC9EQumUAuq&format=png&color=FFFFFF" alt="GitHub" width="40"/>
+  <img src="https://img.shields.io/badge/Dotenv-ECD53F?logo=dotenv&logoColor=black&style=for-the-badge" alt="dotenv"/>
+  <img src="https://img.shields.io/badge/BcryptJS-004488?style=for-the-badge" alt="Becrypt-Js"/>
 </p>
 
 - **Axios**: HTTP client for API requests.
