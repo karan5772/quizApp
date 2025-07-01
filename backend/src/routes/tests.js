@@ -6,7 +6,7 @@ import TestAttempt from "../models/TestAttempt.js";
 import auth from "../middleware/auth.js";
 
 const router = express.Router();
-const upload = multer({ dest: "uploads/" });
+const upload = multer({ dest: "uploads/test" });
 
 // Create test with Excel upload
 router.post("/create", auth, upload.single("excelFile"), async (req, res) => {

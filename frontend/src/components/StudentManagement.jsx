@@ -24,6 +24,32 @@ function StudentManagement() {
   const [creating, setCreating] = useState(false);
   const [message, setMessage] = useState({ type: "", text: "" });
 
+  const handleExcelUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const formData = new FormData();
+    formData.append("file", file);
+
+    setMessage({ type: "", text: "" });
+    try {
+      const res = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/api/auth/import-students`,
+        formData,
+        { headers: { "Content-Type": "multipart/form-data" } }
+      );
+      setMessage({
+        type: "success",
+        text: `Imported: ${res.data.created}, Skipped: ${res.data.skipped}`,
+      });
+      fetchStudents();
+    } catch (error) {
+      setMessage({
+        type: "error",
+        text: error.response?.data?.message || "Failed to import students",
+      });
+    }
+  };
+
   useEffect(() => {
     fetchStudents();
   }, []);
@@ -122,13 +148,24 @@ function StudentManagement() {
             </h2>
             <p className="text-gray-600">Manage student accounts and access</p>
           </div>
-          <button
-            onClick={() => setShowCreateForm(!showCreateForm)}
-            className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-2 rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all flex items-center space-x-2 shadow-lg"
-          >
-            <UserPlus className="w-4 h-4" />
-            <span>Add Student</span>
-          </button>
+          <div className="flex space-x-3">
+            <button
+              onClick={() => setShowCreateForm(!showCreateForm)}
+              className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-2 rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all flex items-center space-x-2 shadow-lg"
+            >
+              <UserPlus className="w-4 h-4" />
+              <span>Add Student</span>
+            </button>
+            <label className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-xl cursor-pointer transition-all shadow-lg">
+              <input
+                type="file"
+                accept=".xlsx, .xls"
+                onChange={handleExcelUpload}
+                className="hidden"
+              />
+              Import from Excel
+            </label>
+          </div>
         </div>
 
         {message.text && (
