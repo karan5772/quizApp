@@ -14,10 +14,7 @@ const PORT = process.env.PORT || 5000;
 
 app.use(
   cors({
-    origin: [
-      "http://localhost:5173",
-      "https://trader-intended-unemployment-catalog.trycloudflare.com",
-    ],
+    origin: ["http://localhost:5173", "https://quiz.dsasnippets.xyz"],
     credentials: true,
   })
 );
