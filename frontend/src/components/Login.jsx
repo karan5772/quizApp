@@ -1,6 +1,9 @@
 import React, { useState } from "react";
+import { motion } from "framer-motion";
 import { useAuth } from "../contexts/AuthContext";
 import { LogIn, User, Lock, AlertCircle, GraduationCap } from "lucide-react";
+import { AuroraBackground } from "./ui/aurora-background";
+import { BackgroundLines } from "./ui/background-lines";
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -42,15 +45,19 @@ function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-800 flex items-center justify-center p-4">
-      <div className="max-w-lg w-full">
+    <BackgroundLines className="flex items-center justify-center w-full flex-col px-4">
+      <div className="max-w-md w-full">
         <div className="bg-white/95 backdrop-blur-sm rounded-3xl shadow-2xl p-8 border border-white/20">
-          <div className="text-center mb-8">
-            <div className="bg-gradient-to-r from-blue-600 to-purple-600 w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
-              <GraduationCap className="w-10 h-10 text-white" />
+          <div className="text-center mb-8 ">
+            <div className=" w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+              <img
+                className="rounded-2xl"
+                src="https://www.educatly.com/_next/image?url=https%3A%2F%2Fapi.educatly.com%2F%2Frails%2Factive_storage%2Fblobs%2FeyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBL0FHQ0E9PSIsImV4cCI6bnVsbCwicHVyIjoiYmxvYl9pZCJ9fQ%3D%3D--53e28a301f7944fce002eee3c82af751be769df0%2Fb_k_birla_institute_of_engineering_%26_technology_pilani_profile&w=1080&q=75"
+                alt="BKBIET Logo"
+              />
             </div>
             <h2 className="text-3xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
-              Welcome To BKBIET Test Platform
+              BKBIET Test Platform
             </h2>
             <p className="text-gray-600 mt-2">Sign in to your test platform</p>
           </div>
@@ -110,10 +117,7 @@ function Login() {
                   Signing in...
                 </div>
               ) : (
-                <div className="flex items-center justify-center">
-                  <LogIn className="w-5 h-5 mr-2" />
-                  Sign In
-                </div>
+                <div className="flex items-center justify-center">Sign In</div>
               )}
             </button>
           </form>
@@ -144,7 +148,7 @@ function Login() {
           </div>
         </div>
       </div>
-    </div>
+    </BackgroundLines>
   );
 }
 
