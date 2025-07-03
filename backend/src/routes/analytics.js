@@ -37,8 +37,11 @@ router.get("/test/:id", auth, async (req, res) => {
           ? Math.min(...attempts.map((a) => a.percentage))
           : 0,
       passRate:
-        (attempts.filter((a) => a.percentage >= 60).length / attempts.length) *
-        100,
+        attempts.length > 0
+          ? (attempts.filter((a) => a.percentage >= 60).length /
+              attempts.length) *
+            100
+          : 0,
       attempts: attempts.map((attempt) => ({
         studentName: attempt.studentId.name,
         studentEmail: attempt.studentId.email,

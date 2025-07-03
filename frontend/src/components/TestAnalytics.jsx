@@ -200,7 +200,7 @@ function TestAnalytics({ tests }) {
                       Average Score
                     </p>
                     <p className="text-3xl font-bold text-green-800">
-                      {analytics.averageScore.toFixed(1)}%
+                      {(analytics.averageScore ?? 0).toFixed(1)}%
                     </p>
                   </div>
                   <TrendingUp className="w-8 h-8 text-green-600" />
@@ -214,7 +214,7 @@ function TestAnalytics({ tests }) {
                       Highest Score
                     </p>
                     <p className="text-3xl font-bold text-yellow-800">
-                      {analytics.highestScore.toFixed(1)}%
+                      {(analytics.highestScore ?? 0).toFixed(1)}%
                     </p>
                   </div>
                   <Award className="w-8 h-8 text-yellow-600" />
@@ -228,7 +228,7 @@ function TestAnalytics({ tests }) {
                       Pass Rate
                     </p>
                     <p className="text-3xl font-bold text-purple-800">
-                      {analytics.passRate.toFixed(1)}%
+                      {(analytics.passRate ?? 0).toFixed(1)}%
                     </p>
                   </div>
                   <Calendar className="w-8 h-8 text-purple-600" />
