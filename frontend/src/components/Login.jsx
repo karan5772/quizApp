@@ -36,7 +36,7 @@ function Login() {
   };
 
   const demoCredentials = [
-    { role: "Admin", email: "karan@gamil.com", password: "123456" },
+    // { role: "Admin", email: "karan@gamil.com", password: "123456" },
     { role: "Student", email: "karan1@gmail.com", password: "1111" },
   ];
 
