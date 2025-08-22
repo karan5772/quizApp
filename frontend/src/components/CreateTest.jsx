@@ -133,9 +133,9 @@ function CreateTest({ onTestCreated }) {
   };
 
   const [open, setOpen] = React.useState(false);
-  const [date, setDate] = React.useState(new Date("2025-06-01"));
-  const [month, setMonth] = React.useState(new Date("2025-06-01"));
-  const [value, setValue] = React.useState(formatDate(new Date("2025-06-01")));
+  const [date, setDate] = React.useState(new Date());
+  const [month, setMonth] = React.useState(new Date());
+  const [value, setValue] = React.useState(formatDate(new Date()));
 
   return (
     <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-200">
@@ -229,7 +229,7 @@ function CreateTest({ onTestCreated }) {
             <Input
               id="date"
               value={value}
-              placeholder="June 01, 2025"
+              placeholder="June 31, 2025"
               className="bg-background pr-10"
               onChange={(e) => {
                 const date = new Date(e.target.value);

@@ -6,7 +6,7 @@ import TestAttempt from "../models/TestAttempt.js";
 import auth from "../middleware/auth.js";
 
 const router = express.Router();
-const upload = multer({ dest: "uploads/test" });
+const upload = multer({ storage: multer.memoryStorage() });
 
 // Create test with Excel upload
 router.post("/create", auth, upload.single("excelFile"), async (req, res) => {
@@ -19,7 +19,7 @@ router.post("/create", auth, upload.single("excelFile"), async (req, res) => {
     let questions = [];
 
     if (req.file) {
-      const workbook = XLSX.readFile(req.file.path);
+      const workbook = XLSX.read(req.file.buffer, { type: "buffer" });
       const sheetName = workbook.SheetNames[0];
       const sheet = workbook.Sheets[sheetName];
       const data = XLSX.utils.sheet_to_json(sheet);
@@ -27,6 +27,7 @@ router.post("/create", auth, upload.single("excelFile"), async (req, res) => {
       questions = data.map((row) => ({
         question: row.question || row.Question,
         code: row.code || row.Code,
+        image: row.image || row.Image,
         language: row.language || row.Language || "javascript",
         options: [
           row.optionA || row.option_a || row["Option A"],

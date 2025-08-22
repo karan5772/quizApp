@@ -7,6 +7,7 @@ const questionSchema = new mongoose.Schema({
   },
   code: String,
   language: String,
+  image: String,
   options: [
     {
       type: String,

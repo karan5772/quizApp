@@ -362,6 +362,18 @@ function TestTaking() {
                 {currentQ.question}
               </p>
             </div>
+            {currentQ.image && currentQ.image.trim() !== "" && (
+              <div className="mb-6">
+                <img
+                  src={currentQ.image}
+                  alt="Question illustration"
+                  className="max-w-80 h-auto rounded-lg border border-gray-200 shadow-sm"
+                  onError={(e) => {
+                    e.target.style.display = "none";
+                  }}
+                />
+              </div>
+            )}
 
             {/* Code Block */}
             {currentQ.code && (
