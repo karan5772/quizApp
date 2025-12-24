@@ -16,7 +16,7 @@ router.post("/create", auth, upload.single("excelFile"), async (req, res) => {
       return res.status(403).json({ message: "Access denied" });
     }
 
-    const { title, description, duration, scheduledAt } = req.body;
+    const { title, description, duration, scheduledAt, branch } = req.body;
     let questions = [];
 
     if (req.file) {
@@ -44,12 +44,21 @@ router.post("/create", auth, upload.single("excelFile"), async (req, res) => {
       }));
     }
 
+    let scheduledDate = new Date();
+    if (scheduledAt) {
+      const parsedDate = new Date(scheduledAt);
+      if (!isNaN(parsedDate.getTime())) {
+        scheduledDate = parsedDate;
+      }
+    }
+
     const test = new Test({
       title,
       description,
       questions,
+      branch,
       duration: parseInt(duration),
-      scheduledAt: scheduledAt ? new Date(scheduledAt) : new Date(),
+      scheduledAt: scheduledDate,
       createdBy: req.user.userId,
       isActive: true,
     });

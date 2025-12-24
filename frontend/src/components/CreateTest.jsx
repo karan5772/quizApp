@@ -45,6 +45,7 @@ function CreateTest({ onTestCreated }) {
     description: "",
     duration: "",
     scheduledAt: "",
+    branch: "",
   });
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -62,6 +63,7 @@ function CreateTest({ onTestCreated }) {
       formDataToSend.append("description", formData.description);
       formDataToSend.append("duration", formData.duration);
       formDataToSend.append("scheduledAt", formData.scheduledAt);
+      formDataToSend.append("scheduledAt", formData.branch);
 
       if (file) {
         formDataToSend.append("excelFile", file);
@@ -83,6 +85,7 @@ function CreateTest({ onTestCreated }) {
         description: "",
         duration: "",
         scheduledAt: "",
+        branch: "",
       });
       setFile(null);
 
@@ -218,6 +221,19 @@ function CreateTest({ onTestCreated }) {
             rows={3}
             className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all bg-gray-50 focus:bg-white"
             placeholder="Enter test description"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-2">
+            Branch
+          </label>
+          <textarea
+            name="branch"
+            value={formData.branch}
+            onChange={handleChange}
+            rows={3}
+            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all bg-gray-50 focus:bg-white"
+            placeholder="Enter test branch"
           />
         </div>
 

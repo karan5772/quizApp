@@ -12,7 +12,7 @@ const upload = multer({ storage: multer.memoryStorage() });
 // Create user (generic)
 router.post("/create-user", async (req, res) => {
   try {
-    const { name, email, password, role, studentId } = req.body;
+    const { name, email, password, role, studentId, branch } = req.body;
 
     const existingUser = await User.findOne({ email });
     if (existingUser) {
@@ -24,6 +24,7 @@ router.post("/create-user", async (req, res) => {
     const user = new User({
       name,
       email,
+      branch,
       password: hashedPassword,
       role: role || "student",
       studentId: studentId || null,
@@ -85,7 +86,7 @@ router.post("/login", async (req, res) => {
 // Create student (admin only)
 router.post("/create-student", async (req, res) => {
   try {
-    const { name, email, password, studentId } = req.body;
+    const { name, email, password, studentId, branch } = req.body;
 
     const existingUser = await User.findOne({ email });
     if (existingUser) {
@@ -97,6 +98,7 @@ router.post("/create-student", async (req, res) => {
     const user = new User({
       name,
       email,
+      branch,
       password: hashedPassword,
       studentId,
       role: "student",
@@ -108,6 +110,7 @@ router.post("/create-student", async (req, res) => {
       message: "Student created successfully",
       user: {
         id: user._id,
+        branch: user.branch || null,
         name: user.name,
         email: user.email,
         studentId: user.studentId,
@@ -152,8 +155,8 @@ router.post("/import-students", upload.single("file"), async (req, res) => {
       skipped = 0,
       errors = [];
     for (const s of students) {
-      const { name, email, password, studentId } = s;
-      if (!name || !email || !password || !studentId) {
+      const { name, email, password, studentId, branch } = s;
+      if (!name || !email || !password || !studentId || !branch) {
         skipped++;
         errors.push({ email, reason: "Missing required fields" });
         continue;
@@ -168,6 +171,7 @@ router.post("/import-students", upload.single("file"), async (req, res) => {
       await User.create({
         name,
         email,
+        branch,
         password: hashedPassword,
         studentId,
         role: "student",

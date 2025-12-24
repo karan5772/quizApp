@@ -29,6 +29,7 @@ const testSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  branch: String,
   description: String,
   questions: [questionSchema],
   duration: {

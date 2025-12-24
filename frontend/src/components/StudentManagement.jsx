@@ -19,6 +19,7 @@ function StudentManagement() {
     email: "",
     password: "",
     studentId: "",
+    branch: "",
   });
   const [loading, setLoading] = useState(true);
   const [creating, setCreating] = useState(false);
@@ -84,6 +85,7 @@ function StudentManagement() {
         email: "",
         password: "",
         studentId: "",
+        branch: "",
       });
       setShowCreateForm(false);
       fetchStudents();
@@ -262,6 +264,23 @@ function StudentManagement() {
                       onChange={handleChange}
                       className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all bg-white"
                       placeholder="Enter password"
+                      required
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Branch
+                  </label>
+                  <div className="relative">
+                    <Key className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                    <input
+                      type="branch"
+                      name="branch"
+                      value={formData.branch}
+                      onChange={handleChange}
+                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all bg-white"
+                      placeholder="Enter branch"
                       required
                     />
                   </div>
