@@ -49,7 +49,7 @@ function AdminDashboard() {
   const fetchTests = async () => {
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_BACKEND_URL}/api/tests`
+        `${import.meta.env.VITE_BACKEND_URL}/api/tests/testNames` // yaha ye testNames Nishyant Sir ka hai, hata dena
       );
       setTests(response.data);
     } catch (error) {

@@ -160,7 +160,7 @@ function TestAnalytics({ tests }) {
               <option value="">Select a test</option>
               {tests.map((test) => (
                 <option key={test._id} value={test._id}>
-                  {test.title}
+                  {test.description}
                 </option>
               ))}
             </select>

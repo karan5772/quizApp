@@ -2,6 +2,7 @@ import express from "express";
 import multer from "multer";
 import XLSX from "xlsx";
 import Test from "../models/Test.js";
+import User from "../models/User.js";
 import TestAttempt from "../models/TestAttempt.js";
 import auth from "../middleware/auth.js";
 
@@ -61,10 +62,26 @@ router.post("/create", auth, upload.single("excelFile"), async (req, res) => {
   }
 });
 
+// Only test names
+router.get("/testNames", auth, async (req, res) => {
+  try {
+    const tests = await Test.find()
+      .populate("createdBy", "name email")
+      .sort({ createdAt: -1 });
+    res.json(tests);
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+});
+
 // Get all tests
 router.get("/", auth, async (req, res) => {
   try {
-    const tests = await Test.find()
+    const currentUser = await User.findOne({ _id: req.user.userId });
+
+    const tests = await Test.find({
+      description: currentUser.studentId,
+    })
       .populate("createdBy", "name email")
       .sort({ createdAt: -1 });
     res.json(tests);
@@ -76,24 +93,27 @@ router.get("/", auth, async (req, res) => {
 // Get test by ID
 router.get("/:id", auth, async (req, res) => {
   try {
+    const currentUser = await User.findOne({ _id: req.user.userId });
     const test = await Test.findById(req.params.id);
     if (!test) {
       return res.status(404).json({ message: "Test not found" });
     }
 
-    // If student, don't send correct answers
-    if (req.user.role === "student") {
-      const testWithoutAnswers = {
-        ...test.toObject(),
-        questions: test.questions.map((q) => ({
-          ...q.toObject(),
-          correctAnswer: undefined,
-        })),
-      };
-      return res.json(testWithoutAnswers);
-    }
+    if (test.description === currentUser.studentId) {
+      // If student, don't send correct answers
+      if (req.user.role === "student") {
+        const testWithoutAnswers = {
+          ...test.toObject(),
+          questions: test.questions.map((q) => ({
+            ...q.toObject(),
+            correctAnswer: undefined,
+          })),
+        };
+        return res.json(testWithoutAnswers);
+      }
 
-    res.json(test);
+      res.json(test);
+    }
   } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });
   }
