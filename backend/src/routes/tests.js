@@ -88,9 +88,7 @@ router.get("/", auth, async (req, res) => {
   try {
     const currentUser = await User.findOne({ _id: req.user.userId });
 
-    const tests = await Test.find({
-      description: currentUser.studentId,
-    })
+    const tests = await Test.find()
       .populate("createdBy", "name email")
       .sort({ createdAt: -1 });
     res.json(tests);
@@ -108,21 +106,21 @@ router.get("/:id", auth, async (req, res) => {
       return res.status(404).json({ message: "Test not found" });
     }
 
-    if (test.description === currentUser.studentId) {
-      // If student, don't send correct answers
-      if (req.user.role === "student") {
-        const testWithoutAnswers = {
-          ...test.toObject(),
-          questions: test.questions.map((q) => ({
-            ...q.toObject(),
-            correctAnswer: undefined,
-          })),
-        };
-        return res.json(testWithoutAnswers);
-      }
-
-      res.json(test);
+    //if (test.description === currentUser.studentId) {
+    // If student, don't send correct answers
+    if (req.user.role === "student") {
+      const testWithoutAnswers = {
+        ...test.toObject(),
+        questions: test.questions.map((q) => ({
+          ...q.toObject(),
+          correctAnswer: undefined,
+        })),
+      };
+      return res.json(testWithoutAnswers);
     }
+
+    res.json(test);
+    // }
   } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });
   }
