@@ -293,12 +293,9 @@ function TestAnalytics({ tests }) {
             <p className="text-gray-600">
               {selectedTest === "all"
                 ? "Comprehensive view of all test results"
+                : analytics?.questionsPerStudent
+                ? `${analytics.questionsPerStudent} random questions per student from a pool of ${analytics.totalQuestions} questions`
                 : "Detailed performance insights and statistics"}
-              {selectedBranch && (
-                <span className="ml-2 text-blue-600 font-medium">
-                  • {selectedBranch}
-                </span>
-              )}
             </p>
           </div>
 

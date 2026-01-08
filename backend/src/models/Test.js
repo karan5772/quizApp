@@ -32,6 +32,10 @@ const testSchema = new mongoose.Schema({
   branch: String,
   description: String,
   questions: [questionSchema],
+  questionsPerStudent: {
+    type: Number,
+    default: null, // null means all questions
+  },
   duration: {
     type: Number,
     required: true,

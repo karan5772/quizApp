@@ -16,7 +16,14 @@ router.post("/create", auth, upload.single("excelFile"), async (req, res) => {
       return res.status(403).json({ message: "Access denied" });
     }
 
-    const { title, description, duration, scheduledAt, branch } = req.body;
+    const {
+      title,
+      description,
+      duration,
+      scheduledAt,
+      branch,
+      questionsPerStudent,
+    } = req.body;
     let questions = [];
 
     if (req.file) {
@@ -57,6 +64,9 @@ router.post("/create", auth, upload.single("excelFile"), async (req, res) => {
       description,
       questions,
       branch,
+      questionsPerStudent: questionsPerStudent
+        ? parseInt(questionsPerStudent)
+        : null,
       duration: parseInt(duration),
       scheduledAt: scheduledDate,
       createdBy: req.user.userId,
@@ -108,10 +118,52 @@ router.get("/:id", auth, async (req, res) => {
 
     //if (test.description === currentUser.studentId) {
     // If student, don't send correct answers
+    let existingAttempt = await TestAttempt.findOne({
+      testId: req.params.id,
+      studentId: req.user.userId,
+    });
+
+    let selectedQuestions = test.questions;
+
+    if (test.questionsPerStudent && !existingAttempt) {
+      // Create new attempt with randomly selected questions
+      const questionCount = Math.min(
+        test.questionsPerStudent,
+        test.questions.length
+      );
+      const shuffled = [...test.questions].sort(() => Math.random() - 0.5);
+      selectedQuestions = shuffled.slice(0, questionCount);
+
+      // Store the attempt with selected questions
+      existingAttempt = new TestAttempt({
+        testId: req.params.id,
+        studentId: req.user.userId,
+        selectedQuestionIds: selectedQuestions.map((q) => q._id),
+        answers: selectedQuestions.map((q) => ({
+          questionId: q._id,
+          selectedAnswer: null,
+          isCorrect: false,
+          points: 0,
+        })),
+      });
+      await existingAttempt.save();
+    } else if (
+      existingAttempt &&
+      existingAttempt.selectedQuestionIds &&
+      existingAttempt.selectedQuestionIds.length > 0
+    ) {
+      // Return the same questions as before
+      selectedQuestions = existingAttempt.selectedQuestionIds
+        .map((id) =>
+          test.questions.find((q) => q._id.toString() === id.toString())
+        )
+        .filter(Boolean);
+    }
+
     if (req.user.role === "student") {
       const testWithoutAnswers = {
         ...test.toObject(),
-        questions: test.questions.map((q) => ({
+        questions: selectedQuestions.map((q) => ({
           ...q.toObject(),
           correctAnswer: undefined,
         })),
@@ -122,6 +174,8 @@ router.get("/:id", auth, async (req, res) => {
     res.json(test);
     // }
   } catch (error) {
+    console.log("Error is : ", error);
+
     res.status(500).json({ message: "Server error", error: error.message });
   }
 });
@@ -219,50 +273,60 @@ router.post("/:id/submit", auth, async (req, res) => {
     const existingAttempt = await TestAttempt.findOne({
       testId: req.params.id,
       studentId: req.user.userId,
-      completedAt: { $exists: true },
     });
+    console.log("hii");
 
-    if (existingAttempt) {
+    if (!existingAttempt) {
+      return res.status(400).json({ message: "No attempt found" });
+    }
+    if (existingAttempt.completedAt) {
       return res
         .status(400)
         .json({ message: "You have already submitted this test" });
     }
 
+    const selectedQuestions = existingAttempt.selectedQuestionIds
+      .map((id) =>
+        test.questions.find((q) => q._id.toString() === id.toString())
+      )
+      .filter(Boolean);
+
     // Calculate score
     let score = 0;
     let totalPoints = 0;
-    const processedAnswers = answers.map((answer, index) => {
-      const question = test.questions[index];
-      const isCorrect = question.correctAnswer === answer.selectedAnswer;
-      const points = isCorrect ? question.points : 0;
+    const processedAnswers = answers
+      .map((answer, index) => {
+        const question = selectedQuestions[index];
+        if (!question) return null;
 
-      score += points;
-      totalPoints += question.points;
+        const isCorrect = question.correctAnswer === answer.selectedAnswer;
+        const points = isCorrect ? question.points : 0;
 
-      return {
-        questionId: question._id,
-        selectedAnswer: answer.selectedAnswer,
-        isCorrect,
-        points,
-      };
-    });
+        score += points;
+        totalPoints += question.points;
+
+        return {
+          questionId: question._id,
+          selectedAnswer: answer.selectedAnswer,
+          isCorrect,
+          points,
+        };
+      })
+      .filter(Boolean);
 
     const percentage = totalPoints > 0 ? (score / totalPoints) * 100 : 0;
 
-    const attempt = new TestAttempt({
-      testId: req.params.id,
-      studentId: req.user.userId,
-      answers: processedAnswers,
-      score,
-      totalPoints,
-      percentage,
-      completedAt: new Date(),
-      timeSpent,
-    });
+    existingAttempt.answers = processedAnswers;
+    existingAttempt.score = score;
+    existingAttempt.totalPoints = totalPoints;
+    existingAttempt.percentage = percentage;
+    existingAttempt.completedAt = new Date();
+    existingAttempt.timeSpent = timeSpent;
 
-    await attempt.save();
-    res.json({ score, totalPoints, percentage, attempt });
+    await existingAttempt.save();
+    res.json({ score, totalPoints, percentage, attempt: existingAttempt });
   } catch (error) {
+    console.log("Error submitting test:", error);
     res.status(500).json({ message: "Server error", error: error.message });
   }
 });

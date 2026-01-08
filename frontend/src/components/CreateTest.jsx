@@ -46,6 +46,7 @@ function CreateTest({ onTestCreated }) {
     duration: "",
     scheduledAt: "",
     branch: "",
+    questionsPerStudent: "",
   });
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -64,6 +65,13 @@ function CreateTest({ onTestCreated }) {
       formDataToSend.append("duration", formData.duration);
       formDataToSend.append("scheduledAt", formData.scheduledAt);
       formDataToSend.append("scheduledAt", formData.branch);
+
+      if (formData.questionsPerStudent) {
+        formDataToSend.append(
+          "questionsPerStudent",
+          formData.questionsPerStudent
+        );
+      }
 
       if (file) {
         formDataToSend.append("excelFile", file);
@@ -86,6 +94,7 @@ function CreateTest({ onTestCreated }) {
         duration: "",
         scheduledAt: "",
         branch: "",
+        questionsPerStudent: "",
       });
       setFile(null);
 
@@ -207,6 +216,26 @@ function CreateTest({ onTestCreated }) {
                 required
               />
             </div>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-2">
+              Questions Per Student
+            </label>
+            <input
+              type="number"
+              name="questionsPerStudent"
+              value={formData.questionsPerStudent}
+              onChange={handleChange}
+              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all bg-gray-50 focus:bg-white"
+              placeholder="Leave empty for all questions"
+              min="1"
+            />
+            <p className="text-xs text-gray-500 mt-1">
+              Optional: Number of random questions each student will receive
+            </p>
           </div>
         </div>
 
@@ -349,37 +378,57 @@ function CreateTest({ onTestCreated }) {
             </div>
           </div>
 
-          <div className="mt-4 p-4 bg-blue-50 rounded-xl border border-blue-200">
-            <div className="flex items-start space-x-3">
-              <Code className="w-5 h-5 text-blue-600 mt-0.5" />
-              <div>
-                <h4 className="font-semibold text-blue-800 mb-2">
-                  Excel File Format:
-                </h4>
-                <div className="text-sm text-blue-700 space-y-1">
-                  <p>
-                    • <strong>question:</strong> The question text
-                  </p>
-                  <p>
-                    • <strong>code:</strong> Code snippet (optional)
-                  </p>
-                  <p>
-                    • <strong>language:</strong> Programming language (optional)
-                  </p>
-                  <p>
-                    • <strong>optionA, optionB, optionC, optionD:</strong>{" "}
-                    Answer options
-                  </p>
-                  <p>
-                    • <strong>correctAnswer:</strong> Correct option number
-                    (1-4)
-                  </p>
-                  <p>
-                    • <strong>points:</strong> Points for the question
-                    (optional, default: 1)
-                  </p>
-                </div>
+          <div className="mt-6 rounded-xl border border-blue-100 bg-gradient-to-br from-blue-50 via-white to-blue-50/50 p-5 shadow-sm">
+            <div className="flex items-center gap-3 border-b border-blue-100/50 pb-3 mb-3">
+              <div className="p-2 bg-blue-100 rounded-lg shadow-sm">
+                <Code className="w-5 h-5 text-blue-600" />
               </div>
+              <h4 className="font-bold text-gray-800">
+                Excel File Format Guide
+              </h4>
+            </div>
+
+            <div className="grid gap-3 sm:grid-cols-2 text-sm">
+              {[
+                {
+                  label: "question",
+                  desc: "The main question text (Required)",
+                  required: true,
+                },
+                {
+                  label: "optionA...D",
+                  desc: "Answer choices (Required)",
+                  required: true,
+                },
+                {
+                  label: "correctAnswer",
+                  desc: "Number 1-4 indicating correct option",
+                  required: true,
+                },
+                { label: "code", desc: "Code snippet to display" },
+                { label: "image", desc: "Image URL for visual questions" },
+                { label: "language", desc: "Prog. language for highlighting" },
+                { label: "points", desc: "Score value (default: 1)" },
+              ].map((item, i) => (
+                <div
+                  key={i}
+                  className="flex flex-col bg-white/60 p-3 rounded-lg border border-blue-50 hover:bg-white transition-colors hover:shadow-sm"
+                >
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="font-mono text-xs font-bold text-blue-700 bg-blue-100/50 px-2 py-1 rounded border border-blue-100">
+                      {item.label}
+                    </span>
+                    {item.required && (
+                      <span className="text-[10px] uppercase font-bold text-amber-500 bg-amber-50 px-1.5 py-0.5 rounded">
+                        Req
+                      </span>
+                    )}
+                  </div>
+                  <span className="text-gray-600 text-xs leading-relaxed pl-1">
+                    {item.desc}
+                  </span>
+                </div>
+              ))}
             </div>
           </div>
         </div>

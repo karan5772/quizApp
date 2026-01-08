@@ -147,7 +147,7 @@ router.get("/export/:id", auth, async (req, res) => {
     const testId = req.params.id;
     const test = await Test.findById(testId);
     const attempts = await TestAttempt.find({ testId })
-      .populate("studentId", "name email studentId")
+      .populate("studentId", "name email studentId branch")
       .populate("testId", "title")
       .sort({ percentage: -1 });
 
@@ -174,15 +174,15 @@ router.get("/export/:id", auth, async (req, res) => {
       };
 
       // Add question-wise answers
-      questionColumns.forEach((q, idx) => {
-        // Find the answer for this question
-        const answerObj = attempt.answers?.[idx];
-        let selected = "";
-        if (answerObj && answerObj.selectedAnswer !== undefined && q.options) {
-          selected = q.options[answerObj.selectedAnswer] || "N.A.";
-        }
-        row[`Q${idx + 1}: ${q.text}`] = selected;
-      });
+      // questionColumns.forEach((q, idx) => {
+      //   // Find the answer for this question
+      //   const answerObj = attempt.answers?.[idx];
+      //   let selected = "";
+      //   if (answerObj && answerObj.selectedAnswer !== undefined && q.options) {
+      //     selected = q.options[answerObj.selectedAnswer] || "N.A.";
+      //   }
+      //   row[`Q${idx + 1}: ${q.text}`] = selected;
+      // });
 
       return row;
     });
