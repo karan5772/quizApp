@@ -162,8 +162,8 @@ function TestTaking() {
 
   const getTimeColor = () => {
     if (timeLeft > 300) return "text-green-600"; // > 5 minutes
-    if (timeLeft > 60) return "text-yellow-600"; // > 1 minute
-    return "text-red-600"; // <= 1 minute
+    if (timeLeft > 120) return "text-yellow-600"; // > 2 minutes
+    return "text-red-600"; // <= 2 minutes
   };
 
   const getAnsweredCount = () => {
@@ -310,28 +310,41 @@ function TestTaking() {
       style={{ userSelect: "none", WebkitUserSelect: "none" }}
     >
       {/* Header */}
-      <header className="bg-white shadow-sm border-b sticky top-0 z-10">
+      <header className="bg-white shadow-sm border-b sticky top-0 z-10 select-none">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <div>
-              <h1 className="text-xl font-semibold text-gray-800 select-none">
+            <div className="flex-1 min-w-0 pr-2">
+              <h1 className="text-base md:text-xl font-semibold text-gray-800 select-none truncate">
                 {test.title}
               </h1>
-              <p className="text-sm text-gray-600 select-none">
+              <p className="text-xs md:text-sm text-gray-600 select-none">
                 Question {currentQuestion + 1} of {test.questions.length}
               </p>
             </div>
-            <div className="flex items-center space-x-6">
-              <div className="text-right">
-                <p className="text-sm text-gray-600 select-none">Answered</p>
-                <p className="font-semibold select-none">
+            <div className="flex items-center space-x-3 md:space-x-6 shrink-0">
+              <div className="text-right hidden sm:block">
+                <p className="text-xs md:text-sm text-gray-600 select-none">
+                  Answered
+                </p>
+                <p className="font-semibold select-none text-sm md:text-base">
                   {getAnsweredCount()}/{test.questions.length}
                 </p>
               </div>
+              <div className="text-right sm:hidden">
+                <p className="text-xs text-gray-600 select-none">Ans</p>
+                <p className="font-semibold select-none text-sm">
+                  {getAnsweredCount()}
+                </p>
+              </div>
               <div className="text-right">
-                <p className="text-sm text-gray-600 select-none">Time Left</p>
+                <p className="text-xs md:text-sm text-gray-600 select-none hidden sm:block">
+                  Time Left
+                </p>
+                <p className="text-xs text-gray-600 select-none sm:hidden">
+                  Time
+                </p>
                 <p
-                  className={`font-bold text-lg select-none ${getTimeColor()}`}
+                  className={`font-bold text-base md:text-lg select-none ${getTimeColor()}`}
                 >
                   {formatTime(timeLeft)}
                 </p>
@@ -341,22 +354,22 @@ function TestTaking() {
         </div>
       </header>
 
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="bg-white rounded-xl shadow-sm p-8 mb-6 border border-gray-200">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-8">
+        <div className="bg-white rounded-xl shadow-sm p-4 md:p-8 mb-6 border border-gray-200">
           {/* Question */}
-          <div className="mb-8">
+          <div className="mb-6 md:mb-8">
             <div className="flex items-start justify-between mb-4">
-              <h2 className="text-xl font-semibold text-gray-800 select-none">
+              <h2 className="text-lg md:text-xl font-semibold text-gray-800 select-none">
                 Question {currentQuestion + 1}
               </h2>
-              <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium select-none">
+              <span className="bg-blue-100 text-blue-800 px-2 py-1 md:px-3 rounded-full text-xs md:text-sm font-medium select-none shrink-0 ml-2">
                 {currentQ.points} {currentQ.points === 1 ? "point" : "points"}
               </span>
             </div>
 
             <div className="prose max-w-none mb-6">
               <p
-                className="text-gray-700 text-lg leading-relaxed select-none"
+                className="text-gray-700 text-base md:text-lg leading-relaxed select-none"
                 style={{ userSelect: "none" }}
               >
                 {currentQ.question}
@@ -367,7 +380,7 @@ function TestTaking() {
                 <img
                   src={currentQ.image}
                   alt="Question illustration"
-                  className="max-w-80 h-auto rounded-lg border border-gray-200 shadow-sm"
+                  className="max-w-full md:max-w-80 h-auto rounded-lg border border-gray-200 shadow-sm mx-auto md:mx-0"
                   onError={(e) => {
                     e.target.style.display = "none";
                   }}
@@ -379,13 +392,13 @@ function TestTaking() {
             {currentQ.code && (
               <div className="mb-6">
                 <div className="bg-gray-900 rounded-xl overflow-hidden shadow-lg">
-                  <div className="bg-gray-800 px-4 py-3 text-sm text-gray-300 border-b border-gray-700 flex items-center select-none">
-                    <Code className="w-4 h-4 mr-2" />
+                  <div className="bg-gray-800 px-4 py-2 md:py-3 text-xs md:text-sm text-gray-300 border-b border-gray-700 flex items-center select-none">
+                    <Code className="w-3 h-3 md:w-4 md:h-4 mr-2" />
                     {currentQ.language || "javascript"}
                   </div>
-                  <div className="p-6 overflow-x-auto">
+                  <div className="p-4 md:p-6 overflow-x-auto">
                     <pre
-                      className="text-gray-100 font-mono text-sm leading-relaxed select-none"
+                      className="text-gray-100 font-mono text-xs md:text-sm leading-relaxed select-none"
                       style={{ userSelect: "none", WebkitUserSelect: "none" }}
                     >
                       <code
@@ -405,28 +418,29 @@ function TestTaking() {
           </div>
 
           {/* Options */}
-          <div className="space-y-4 mb-8">
+          {/* Options */}
+          <div className="space-y-3 md:space-y-4 mb-6 md:mb-8">
             {currentQ.options.map((option, index) => (
               <label
                 key={index}
-                className={`block p-4 border-2 rounded-xl cursor-pointer transition-all hover:bg-gray-50 select-none ${
+                className={`block p-3 md:p-4 border-2 rounded-xl cursor-pointer transition-all hover:bg-gray-50 select-none ${
                   answers[currentQuestion]?.selectedAnswer === index
                     ? "border-blue-500 bg-blue-50 shadow-sm"
                     : "border-gray-200 hover:border-gray-300"
                 }`}
                 style={{ userSelect: "none" }}
               >
-                <div className="flex items-center">
+                <div className="flex items-start">
                   <input
                     type="radio"
                     name={`question-${currentQuestion}`}
                     value={index}
                     checked={answers[currentQuestion]?.selectedAnswer === index}
                     onChange={() => handleAnswerSelect(currentQuestion, index)}
-                    className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                    className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500 mt-1"
                   />
                   <span
-                    className="ml-3 text-gray-800 font-medium select-none"
+                    className="ml-3 text-sm md:text-base text-gray-800 font-medium select-none"
                     style={{ userSelect: "none" }}
                   >
                     {option}
@@ -438,22 +452,23 @@ function TestTaking() {
         </div>
 
         {/* Navigation */}
-        <div className="flex justify-between items-center mb-8">
+        <div className="flex justify-between items-center mb-8 gap-3">
           <button
             onClick={() => setCurrentQuestion(Math.max(0, currentQuestion - 1))}
             disabled={currentQuestion === 0}
-            className="flex items-center space-x-2 px-6 py-3 bg-gray-500 text-white rounded-xl hover:bg-gray-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-lg select-none"
+            className="flex items-center space-x-1 md:space-x-2 px-4 md:px-6 py-2.5 md:py-3 bg-gray-500 text-white rounded-xl hover:bg-gray-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-lg select-none text-sm md:text-base"
           >
             <ChevronLeft className="w-4 h-4" />
-            <span>Previous</span>
+            <span className="hidden sm:inline">Previous</span>
+            <span className="sm:hidden">Prev</span>
           </button>
 
-          <div className="flex space-x-4">
+          <div className="flex space-x-3 md:space-x-4">
             {currentQuestion === test.questions.length - 1 ? (
               <button
                 onClick={handleSubmit}
                 disabled={submitting}
-                className="flex items-center space-x-2 px-8 py-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-xl hover:from-green-700 hover:to-emerald-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg select-none"
+                className="flex items-center space-x-2 px-6 md:px-8 py-2.5 md:py-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-xl hover:from-green-700 hover:to-emerald-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg select-none text-sm md:text-base"
               >
                 <CheckCircle className="w-4 h-4" />
                 <span>{submitting ? "Submitting..." : "Submit Test"}</span>
@@ -465,7 +480,7 @@ function TestTaking() {
                     Math.min(test.questions.length - 1, currentQuestion + 1)
                   )
                 }
-                className="flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all shadow-lg select-none"
+                className="flex items-center space-x-1 md:space-x-2 px-5 md:px-6 py-2.5 md:py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all shadow-lg select-none text-sm md:text-base"
               >
                 <span>Next</span>
                 <ChevronRight className="w-4 h-4" />
@@ -475,16 +490,16 @@ function TestTaking() {
         </div>
 
         {/* Question Navigator */}
-        <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-200">
+        <div className="bg-white rounded-xl shadow-sm p-4 md:p-6 border border-gray-200">
           <h3 className="text-lg font-semibold text-gray-800 mb-4 select-none">
             Question Navigator
           </h3>
-          <div className="grid grid-cols-10 gap-2 mb-4">
+          <div className="grid grid-cols-5 sm:grid-cols-8 md:grid-cols-10 gap-2 mb-4">
             {test.questions.map((_, index) => (
               <button
                 key={index}
                 onClick={() => setCurrentQuestion(index)}
-                className={`w-10 h-10 rounded-lg text-sm font-medium transition-all select-none ${
+                className={`w-full aspect-square md:w-10 md:h-10 rounded-lg text-sm font-medium transition-all select-none flex items-center justify-center ${
                   index === currentQuestion
                     ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg"
                     : answers[index]?.selectedAnswer !== null
@@ -496,7 +511,7 @@ function TestTaking() {
               </button>
             ))}
           </div>
-          <div className="flex items-center space-x-6 text-sm text-gray-600 select-none">
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-gray-600 select-none">
             <div className="flex items-center space-x-2">
               <div className="w-4 h-4 bg-gradient-to-r from-blue-600 to-purple-600 rounded"></div>
               <span>Current</span>
