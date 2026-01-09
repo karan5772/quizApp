@@ -102,6 +102,8 @@ function CreateTest({ onTestCreated }) {
         onTestCreated();
       }
     } catch (error) {
+      console.log(error);
+
       setMessage({
         type: "error",
         text: error.response?.data?.message || "Failed to create test",
