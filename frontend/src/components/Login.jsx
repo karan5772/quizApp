@@ -37,7 +37,7 @@ function Login() {
 
   const demoCredentials = [
     // { role: "Admin", email: "karan@gamil.com", password: "123456" },
-    { role: "Student", email: "karan1@gmail.com", password: "1111" },
+    // { role: "Student", email: "test1@gmail.com", password: "1111" },
   ];
 
   const fillDemo = (email, password) => {
@@ -121,31 +121,6 @@ function Login() {
               )}
             </button>
           </form>
-
-          <div className="mt-8 pt-6 border-t border-gray-200">
-            <div className="text-center text-sm text-gray-600 mb-4">
-              <p className="font-semibold mb-3">Demo Credentials:</p>
-              <div className="space-y-3">
-                {demoCredentials.map((cred, index) => (
-                  <div key={index} className="bg-gray-50 rounded-lg p-3">
-                    <div className="flex items-center justify-between">
-                      <div className="text-left">
-                        <p className="font-medium text-gray-800">{cred.role}</p>
-                        <p className="text-xs text-gray-600">{cred.email}</p>
-                      </div>
-                      <button
-                        type="button"
-                        onClick={() => fillDemo(cred.email, cred.password)}
-                        className="text-blue-600 hover:text-blue-700 text-xs font-medium px-3 py-1 rounded-md hover:bg-blue-50 transition-colors"
-                      >
-                        Use
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </BackgroundLines>
