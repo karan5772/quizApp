@@ -64,7 +64,7 @@ function CreateTest({ onTestCreated }) {
       formDataToSend.append("description", formData.description);
       formDataToSend.append("duration", formData.duration);
       formDataToSend.append("scheduledAt", formData.scheduledAt);
-      formDataToSend.append("scheduledAt", formData.branch);
+      formDataToSend.append("branch", formData.branch);
 
       if (formData.questionsPerStudent) {
         formDataToSend.append(
