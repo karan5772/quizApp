@@ -29,7 +29,8 @@ function StudentDashboard() {
       const response = await axios.get(
         `${import.meta.env.VITE_BACKEND_URL}/api/tests`
       );
-      setTests(response.data);
+      const tests = response.data.filter((test) => test.branch === user.branch);
+      setTests(tests);
     } catch (error) {
       console.error("Error fetching tests:", error);
     } finally {
