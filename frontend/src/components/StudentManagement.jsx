@@ -485,9 +485,6 @@ function StudentManagement() {
                     >
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white font-semibold text-sm">
-                            {student.name?.charAt(0)?.toUpperCase() || "S"}
-                          </div>
                           <div className="text-sm font-semibold text-gray-900">
                             {student.name}
                           </div>
